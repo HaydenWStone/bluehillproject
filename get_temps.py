@@ -78,7 +78,7 @@ def make_call(year):
     # Display the DataFrame
     print(df_pivot)
 
-    file_path = 'blue_hill.csv'
+    file_path = "test.csv"
 
     # Check if the file exists
     if os.path.isfile(file_path):

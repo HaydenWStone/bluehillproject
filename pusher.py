@@ -2,7 +2,7 @@ import os
 import subprocess
 
 # Define paths
-source_file = '/home/swieyeinthesky/bluehillproject/test.csv'  # The source file path
+source_file = '/home/swieyeinthesky/bluehillproject/blue_hill.csv'  # The source file path
 repo_directory = '/home/swieyeinthesky/bluehillproject'  # Path to the cloned repository
 
 # Check if the source file exists
@@ -14,7 +14,7 @@ else:
         ['git', 'status'],  # Check the current status of the repository
         ['git', 'add', '-A'],  # Ensure all changes are staged
         ['git', 'status'],  # Check the status again after staging changes
-        ['git', 'commit', '-m', 'Add or update test.csv'],
+        ['git', 'commit', '-m', 'Add or update blue_hill.csv'],
         ['git', 'pull', '--rebase', 'origin', 'main'],  # Pull the latest changes from the remote repository
         ['git', 'push', 'origin', 'main']  # Replace 'main' with your branch name if different
     ]
