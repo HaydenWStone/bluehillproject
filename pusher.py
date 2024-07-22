@@ -15,6 +15,7 @@ else:
         ['git', 'add', '-A'],  # Ensure all changes are staged
         ['git', 'status'],  # Check the status again after staging changes
         ['git', 'commit', '-m', 'Add or update test.csv'],
+        ['git', 'pull', '--rebase', 'origin', 'main'],  # Pull the latest changes from the remote repository
         ['git', 'push', 'origin', 'main']  # Replace 'main' with your branch name if different
     ]
 
