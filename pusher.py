@@ -2,7 +2,7 @@ import os
 import subprocess
 
 # Define paths
-source_file = '/home/swieyeinthesky/bluehillproject/blue_hill.csv'  # The source file path
+source_file = '/home/swieyeinthesky/bluehillproject/get_temps.py'  # The source file path
 repo_directory = '/home/swieyeinthesky/bluehillproject'  # Path to the cloned repository
 
 # Check if the source file exists
