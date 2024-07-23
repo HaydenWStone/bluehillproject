@@ -1,10 +1,16 @@
 import pandas as pd
+import requests
+from io import StringIO
 
-# Path to the local CSV file
-file_path = '/home/swieyeinthesky/bluehillproject/data/blue_hill.csv'
+# URL to the remote CSV file on GitHub
+file_url = 'https://raw.githubusercontent.com/HaydenWStone/bluehillproject/main/data/blue_hill.csv'
+
+# Fetch the CSV file from the URL
+response = requests.get(file_url)
+response.raise_for_status()  # Ensure we notice bad responses
 
 # Read the CSV file into a DataFrame
-blue_hill_data = pd.read_csv(file_path)
+blue_hill_data = pd.read_csv(StringIO(response.text))
 
 # Ensure the 'Date' column is of datetime type
 blue_hill_data['Date'] = pd.to_datetime(blue_hill_data['Date'])
