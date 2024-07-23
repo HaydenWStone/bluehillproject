@@ -21,13 +21,21 @@ try:
     print("Navigating to the local repository...")
     run_command(f"cd {local_repo_path}")
 
+    # Ensure we are on the correct branch
+    print(f"Checking out branch {branch}...")
+    run_command(f"git checkout -B {branch}", cwd=local_repo_path)
+
     # Add all changes
     print("Adding all changes...")
     run_command("git add -A", cwd=local_repo_path)
 
-    # Commit the changes
+    # Commit the changes if there are any
     print("Committing the changes...")
-    run_command('git commit -m "Force push to overwrite GitHub repo"', cwd=local_repo_path)
+    commit_output = run_command('git commit -m "Force push to overwrite GitHub repo" || echo "nothing to commit"', cwd=local_repo_path)
+    if "nothing to commit" in commit_output:
+        print("Nothing to commit.")
+    else:
+        print(commit_output)
 
     # Force push to the remote GitHub repository
     print("Force pushing to the remote repository...")
