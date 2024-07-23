@@ -1,12 +1,19 @@
 import requests
 import pandas as pd
 from datetime import datetime, timedelta
+from dotenv import load_dotenv
 import time
 import os
 
 def make_call(year):
-    # Replace with your token
-    token = 'yDEnNWFOExZckZTMxlgLAFuvXTavOIuA'
+    # Load environment variables from .env file
+    load_dotenv()
+
+    # Retrieve the token from environment variables
+    token = os.getenv('NOAA_API_TOKEN')
+
+    if not token:
+        raise ValueError("NOAA API token is not set. Please set the environment variable 'NOAA_API_TOKEN'.")
 
     # Define the base URL and common parameters
     base_url = 'https://www.ncei.noaa.gov/cdo-web/api/v2/data'
