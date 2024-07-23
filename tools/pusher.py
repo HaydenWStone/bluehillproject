@@ -36,7 +36,7 @@ try:
 
     # Commit the changes if there are any
     print("Committing the changes...")
-    commit_output = run_command('git commit -m "Force push to overwrite GitHub repo" || echo "nothing to commit"', cwd=local_repo_path)
+    commit_output = run_command('git commit -m "Daily force push to update repo" || echo "nothing to commit"', cwd=local_repo_path)
     if "nothing to commit" in commit_output:
         print("Nothing to commit.")
     else:
