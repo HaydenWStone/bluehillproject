@@ -41,3 +41,27 @@ plt.grid(True)
 plt.savefig('/home/swieyeinthesky/bluehillproject/data/visuals/calendar_day_mean_temps.png')
 
 plt.show()
+
+# Plot PRCP_mean
+plt.figure(figsize=(12, 6))
+plt.plot(data['Date'], data['PRCP_mean'], label='PRCP_mean', color='green')
+plt.title('Daily Mean Precipitation at Blue Hill (1893 - Present)')
+plt.xlabel('Date')
+plt.ylabel('Precipitation (Inches)')
+plt.legend()
+
+# Set x-axis major ticks to monthly intervals
+plt.gca().xaxis.set_major_locator(plt.MultipleLocator(30))
+plt.gca().xaxis.set_major_formatter(plt.matplotlib.dates.DateFormatter('%b'))
+
+plt.grid(True)
+
+# Save the plot as an image
+plt.savefig('/home/swieyeinthesky/bluehillproject/data/visuals/calendar_day_mean_precip.png')
+
+plt.show()
+
+
+
+
+
