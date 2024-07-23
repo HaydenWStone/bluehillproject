@@ -1,8 +1,13 @@
 import subprocess
+from dotenv import load_dotenv
+import os
+
+# Load environment variables from .env file
+load_dotenv()
 
 # Define repository details
 local_repo_path = "/home/swieyeinthesky/bluehillproject/"  # Replace with the path to your cloned repo
-github_repo_url = "https://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@github.com/HaydenWStone/bluehillproject.git"  # Replace with your GitHub repo URL and your token
+github_repo_url = os.getenv('github_repo_url')  # Replace with your GitHub repo URL and your token
 
 # Define the branch you want to push to
 branch = "main"
