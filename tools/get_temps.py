@@ -33,7 +33,7 @@ def make_call(year):
     end_date = datetime.today() - timedelta(days=2)
 
     # Function to fetch data for a given date range
-    def fetch_data(start, end, datatype, retries=3):
+    def fetch_data(start, end, datatype, retries=100):
         params = common_params.copy()
         params['startdate'] = start.strftime('%Y-%m-%d')
         params['enddate'] = end.strftime('%Y-%m-%d')
@@ -48,7 +48,7 @@ def make_call(year):
                 print(f"HTTP error occurred: {e}")
                 if response.status_code == 503:
                     print("Server unavailable, retrying...")
-                    time.sleep(5)  # Wait for 5 seconds before retrying
+                    time.sleep(10)  # Wait for 10 seconds before retrying
                 else:
                     break
             except requests.exceptions.RequestException as e:
