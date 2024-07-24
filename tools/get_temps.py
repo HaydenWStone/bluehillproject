@@ -28,9 +28,40 @@ def make_call(year):
     # Define headers
     headers = {'token': token}
 
-    # Define the date range
-    start_date = datetime.today() - timedelta(days=2)
-    end_date = datetime.today() - timedelta(days=2)
+    # File path
+    file_path = "/home/swieyeinthesky/bluehillproject/data/blue_hill.csv"
+
+    # Read the CSV file to find the last date entry
+    try:
+        data = pd.read_csv(file_path)
+        if 'Date' in data.columns:
+            data['Date'] = pd.to_datetime(data['Date'])
+            last_date = data['Date'].max().date()
+        else:
+            print(f"'Date' column not found in the file.")
+            last_date = None
+    except Exception as e:
+        print(f"Error reading the file: {e}")
+        last_date = None
+
+    # Define end_date as 2 days before today
+    end_date = datetime.today().date() - timedelta(days=2)
+
+    # Determine start_date
+    if last_date:
+        start_date = last_date + timedelta(days=1)
+    else:
+        start_date = None
+
+    # Check if we need to make any requests
+    if last_date and last_date >= end_date:
+        print("No requests needed. The last date in the file is already up-to-date.")
+        return
+    elif not start_date or start_date > end_date:
+        print("No valid start date found or start_date is beyond end_date. No requests needed.")
+        return
+    else:
+        print(f"Requests needed from {start_date} to {end_date}.")
 
     # Function to fetch data for a given date range
     def fetch_data(start, end, datatype, retries=100):
@@ -63,7 +94,7 @@ def make_call(year):
     data = []
     current_start_date = start_date
 
-    while current_start_date < end_date:
+    while current_start_date <= end_date:
         current_end_date = min(current_start_date + timedelta(days=365), end_date)
         data.extend(fetch_data(current_start_date, current_end_date, 'TMAX'))
         data.extend(fetch_data(current_start_date, current_end_date, 'TMIN'))
@@ -74,25 +105,26 @@ def make_call(year):
     df = pd.DataFrame(data)
 
     # Pivot the DataFrame to have TMAX and TMIN in separate columns
-    df_pivot = df.pivot(index='date', columns='datatype', values='value').reset_index()
+    if not df.empty:
+        df_pivot = df.pivot(index='date', columns='datatype', values='value').reset_index()
 
-    # Rename columns for clarity
-    df_pivot.columns = ['Date', 'PRCP', 'TMAX', 'TMIN']
+        # Rename columns for clarity
+        df_pivot.columns = ['Date', 'PRCP', 'TMAX', 'TMIN']
 
-    # Remove the substring "T00:00:00" from the date field
-    df_pivot['Date'] = df_pivot['Date'].str.replace('T00:00:00', '')
+        # Remove the substring "T00:00:00" from the date field
+        df_pivot['Date'] = df_pivot['Date'].str.replace('T00:00:00', '')
 
-    # Display the DataFrame
-    print(df_pivot)
+        # Display the DataFrame
+        print(df_pivot)
 
-    file_path = "/home/swieyeinthesky/bluehillproject/data/blue_hill.csv"
-
-    # Check if the file exists
-    if os.path.isfile(file_path):
-        # If file exists, append data without writing the header
-        df_pivot.to_csv(file_path, mode='a', header=False, index=False)
+        # Check if the file exists
+        if os.path.isfile(file_path):
+            # If file exists, append data without writing the header
+            df_pivot.to_csv(file_path, mode='a', header=False, index=False)
+        else:
+            # If file doesn't exist, write data with the header
+            df_pivot.to_csv(file_path, index=False)
     else:
-        # If file doesn't exist, write data with the header
-        df_pivot.to_csv(file_path, index=False)
+        print("No data fetched.")
 
 make_call(datetime.now().year)
