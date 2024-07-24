@@ -29,7 +29,7 @@ def make_call(year):
     headers = {'token': token}
 
     # File path
-    file_path = "/home/swieyeinthesky/bluehillproject/data/blue_hill.csv"
+    file_path = "/home/swieyeinthesky/bluehillproject/data/blue_hill_test.csv"
 
     # Read the CSV file to find the last date entry
     try:
