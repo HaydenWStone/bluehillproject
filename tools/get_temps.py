@@ -29,7 +29,7 @@ def make_call(year):
     headers = {'token': token}
 
     # File path
-    file_path = "/home/swieyeinthesky/bluehillproject/data/blue_hill_test.csv"
+    file_path = "/home/swieyeinthesky/bluehillproject/data/blue_hill.csv"
 
     # Read the CSV file to find the last date entry
     try:
@@ -119,11 +119,14 @@ def make_call(year):
 
         # Check if the file exists
         if os.path.isfile(file_path):
-            # If file exists, append data without writing the header
-            df_pivot.to_csv(file_path, mode='a', header=False, index=False)
+            # Ensure the file ends with a newline before appending
+            with open(file_path, 'a') as f:
+                if os.stat(file_path).st_size > 0:
+                    f.write('\n')
+                df_pivot.to_csv(f, header=False, index=False)
         else:
             # If file doesn't exist, write data with the header
-            df_pivot.to_csv(file_path, index=False)
+            df_pivot.to_csv(file_path, index=False, line_terminator='\n')
     else:
         print("No data fetched.")
 
