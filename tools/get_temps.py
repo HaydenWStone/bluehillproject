@@ -117,6 +117,9 @@ def make_call(year):
         # Display the DataFrame
         print(df_pivot)
 
+        # Remove blank lines by dropping rows where all elements are NaN
+        df_pivot = df_pivot.dropna(how='all')
+
         # Check if the file exists
         if os.path.isfile(file_path):
             # Ensure the file ends with a newline before appending
